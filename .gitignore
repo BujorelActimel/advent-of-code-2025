@@ -1,5 +1,4 @@
-# include inputs only in the setup branch
-# inputs/*.txt
+inputs/*.txt
 
 # Kotlin/Gradle
 kotlin/.gradle/
