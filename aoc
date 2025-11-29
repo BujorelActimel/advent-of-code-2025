@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Advent of Code 2025 Runner Script
+# Usage: ./aoc [kot|zig] [01-12] [1|2]
+
+set -e
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: ./aoc <language> <day> <part>"
+    echo "  <language> = kot | zig"
+    echo "  <day>      = 01 | 02 | ... | 12"
+    echo "  <part>     = 1 | 2"
+    exit 1
+fi
+
+LANG=$1
+DAY=$2
+PART=$3
+
+if [ "$LANG" != "kot" ] && [ "$LANG" != "zig" ]; then
+    echo "Error: Invalid language '$LANG' (must be 'kot' or 'zig')"
+    exit 1
+fi
+
+if ! [[ "$DAY" =~ ^(0[1-9]|1[0-2])$ ]]; then
+    echo "Error: Invalid day '$DAY' (must be 01-12)"
+    exit 1
+fi
+
+if [ "$PART" != "1" ] && [ "$PART" != "2" ]; then
+    echo "Error: Invalid part '$PART' (must be 1 or 2)"
+    exit 1
+fi
+
+if [ "$LANG" = "kot" ]; then
+    cd kotlin
+    ./gradlew -q run --args="$DAY $PART"
+elif [ "$LANG" = "zig" ]; then
+    cd zig
+    zig build run -- "$DAY" "$PART"
+fi

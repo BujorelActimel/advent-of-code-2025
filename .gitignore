@@ -1,0 +1,29 @@
+# include inputs only in the setup branch
+# inputs/*.txt
+
+# Kotlin/Gradle
+kotlin/.gradle/
+kotlin/build/
+kotlin/gradle/
+kotlin/gradlew
+kotlin/gradlew.bat
+kotlin/.kotlin/
+kotlin/out/
+kotlin/bin/
+
+# Zig
+zig/zig-cache/
+zig/zig-out/
+zig/.zig-cache/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
