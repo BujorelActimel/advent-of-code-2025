@@ -1,14 +1,27 @@
 package day01
 
-import day01.rotate
-
 fun part1(input: String): String {
     var password = 0
     var dialPosition = 50
     val rotations = input.lines()
 
     rotations.forEach {
-        dialPosition = rotate(dialPosition, it)
+        if (!it.isEmpty() && !it.isBlank()) {
+            val direction = it[0]
+            val distance = it.substring(1).toInt() % 100
+
+            when (direction) {
+                'L' -> {
+                    dialPosition -= distance
+                }
+                'R' -> {
+                    dialPosition += distance
+                }
+            }
+
+            dialPosition = dialPosition.mod(100)
+        }
+
         if (dialPosition == 0) {
             password++
         }
@@ -18,32 +31,34 @@ fun part1(input: String): String {
 }
 
 fun part2(input: String): String {
-    // TODO: Implement solution for day 01 part 2
-    return "Not implemented"
-}
+    var password = 0
+    var dialPosition = 50
+    val rotations = input.lines()
 
-fun rotate(dialPosition: Int, rotation: String): Int {
-    if (rotation.isEmpty() || rotation.isBlank()) {
-        return dialPosition
-    }
+    rotations.forEach {
+        if (!it.isEmpty() && !it.isBlank()) {
+            val direction = it[0]
+            var distance = it.substring(1).toInt()
 
-    val direction = rotation[0]
-    val distance = rotation.substring(1).toInt()
+            password += (distance / 100)
+            distance = distance.mod(100)
 
-    if (direction == 'L') {
-        if (dialPosition - distance >= 0) {
-            return dialPosition - distance
-        }
-        else {
-            return -((distance - dialPosition) % 100)
+            when (direction) {
+                'L' -> {
+                    if (dialPosition - distance <= 0 && dialPosition != 0) {
+                        password++
+                    }
+                    dialPosition = (dialPosition - distance).mod(100)
+                }
+                'R' -> {
+                    if (dialPosition + distance >= 100 && dialPosition != 0) {
+                        password++
+                    }
+                    dialPosition = (dialPosition + distance).mod(100)
+                }
+            }
         }
     }
-    else {
-        if (dialPosition + distance < 100) {
-            return dialPosition + distance
-        }
-        else {
-            return (dialPosition + distance) % 100
-        }
-    }
+    
+    return password.toString()
 }
