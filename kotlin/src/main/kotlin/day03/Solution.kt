@@ -3,37 +3,36 @@ package day03
 import java.math.BigInteger
 
 fun part1(input: String): String {
+    val resultLength = 2
     val banks = input.lines()
-    var sum = 0
+    var sum = BigInteger("0")
 
     banks.forEach {
-        var left = 0
-        var right = 0
-        for ((pos, rating) in it.withIndex()) {
-            val ratingInt = rating.digitToInt()
-            if (ratingInt > left && pos != it.length-1) {
-                left = ratingInt
-                right = 0
-            }
-            else if (ratingInt > right) {
-                right = ratingInt
-            }
+        var number = ""
+        var searchSpaceEnd = it.length-resultLength
+        var searchSpaceStart = 0
+        while (number.length < resultLength) {
+            val (digit, index) = it.getMax(searchSpaceStart, searchSpaceEnd)
+            number += digit.toString()
+            searchSpaceStart = index+1
+            searchSpaceEnd++
         }
-        sum += "$left$right".toInt()
+        sum += number.toBigInteger()    
     }
 
     return sum.toString()
 }
 
 fun part2(input: String): String {
+    val resultLength = 12
     val banks = input.lines()
     var sum = BigInteger("0")
 
     banks.forEach {
         var number = ""
-        var searchSpaceEnd = it.length-12
+        var searchSpaceEnd = it.length-resultLength
         var searchSpaceStart = 0
-        while (number.length < 12) {
+        while (number.length < resultLength) {
             val (digit, index) = it.getMax(searchSpaceStart, searchSpaceEnd)
             number += digit.toString()
             searchSpaceStart = index+1
