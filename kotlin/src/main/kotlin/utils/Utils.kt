@@ -1,5 +1,7 @@
 package utils
 
+import java.math.BigInteger
+
 fun getProperDivisors(num: Int): List<Int> {
     val result = emptyList<Int>().toMutableList()
     for (div in num/2 downTo 1) {
@@ -16,4 +18,35 @@ fun concatTimes(str: String, times: Int): String {
         result += str
     }
     return result
+}
+
+operator fun BigInteger.rangeTo(that: BigInteger) = BigIntegerRange(this, that)
+
+class BigIntegerRange(
+    override val start: BigInteger,
+    override val endInclusive: BigInteger
+) : ClosedRange<BigInteger>, Iterable<BigInteger> {
+
+    override fun iterator(): Iterator<BigInteger> {
+        return BigIntegerIterator(start, endInclusive)
+    }
+
+    fun intersects(other: BigIntegerRange): Boolean {
+        return this.start in other || 
+               this.endInclusive in other ||
+               other.start in this ||
+               other.endInclusive in this
+    }
+}
+
+class BigIntegerIterator(val start: BigInteger, val endInclusive: BigInteger) : Iterator<BigInteger> {
+    var initValue = start
+
+    override fun hasNext(): Boolean {
+        return initValue <= endInclusive
+    }
+
+    override fun next(): BigInteger {
+        return initValue++
+    }
 }
