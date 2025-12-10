@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("com.google.ortools:ortools-java:9.8.3296") // lmao
 }
 
 kotlin {
